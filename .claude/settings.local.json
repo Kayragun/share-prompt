@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx shadcn@latest init --defaults)",
+      "Bash(npx shadcn@latest add badge card dropdown-menu input label select textarea avatar separator tabs toast)",
+      "Bash(npx shadcn@latest add badge card dropdown-menu input label select textarea avatar separator tabs sonner)",
+      "Bash(mkdir -p \"C:\\\\Users\\\\kayra\\\\OneDrive\\\\Masaüstü\\\\prompt-website\\\\src\\\\app\\\\[locale]\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\kayra\\\\OneDrive\\\\Masaüstü\\\\prompt-website\\\\src\\\\app\\\\[locale]\\\\auth\\\\login\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\kayra\\\\OneDrive\\\\Masaüstü\\\\prompt-website\\\\src\\\\app\\\\[locale]\\\\auth\\\\register\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\kayra\\\\OneDrive\\\\Masaüstü\\\\prompt-website\\\\src\\\\app\\\\[locale]\\\\categories\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\kayra\\\\OneDrive\\\\Masaüstü\\\\prompt-website\\\\src\\\\app\\\\[locale]\\\\prompts\\\\new\")",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)"
+    ]
+  }
+}
