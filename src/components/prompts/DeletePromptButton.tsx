@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   promptId: string;
@@ -15,6 +16,7 @@ type Props = {
 export default function DeletePromptButton({ promptId, locale }: Props) {
   const router = useRouter();
   const supabase = createClient();
+  const t = useTranslations('prompt');
   const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
 
@@ -29,12 +31,12 @@ export default function DeletePromptButton({ promptId, locale }: Props) {
     const { error } = await supabase.from('prompts').delete().eq('id', promptId);
 
     if (error) {
-      toast.error('Silinemedi: ' + error.message);
+      toast.error(t('deleteFailed') + ': ' + error.message);
       setLoading(false);
       return;
     }
 
-    toast.success('Prompt silindi.');
+    toast.success(t('deleteSuccess'));
     router.push(`/${locale}`);
     router.refresh();
   }
@@ -48,7 +50,7 @@ export default function DeletePromptButton({ promptId, locale }: Props) {
       className="gap-2"
     >
       <Trash2 className="h-4 w-4" />
-      {loading ? 'Siliniyor...' : confirm ? 'Emin misin? Tekrar tıkla' : 'Sil'}
+      {loading ? t('deleting') : confirm ? t('deleteConfirm') : t('delete')}
     </Button>
   );
 }
