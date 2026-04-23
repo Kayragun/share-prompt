@@ -8,6 +8,12 @@ export default async function Footer({ locale }: { locale: string }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
+  let username = null;
+  if (user) {
+    const { data } = await supabase.from('profiles').select('username').eq('id', user.id).single();
+    username = data?.username;
+  }
+
   return (
     <footer className="border-t mt-16 bg-muted/30">
       <div className="container mx-auto px-4 max-w-6xl py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
@@ -20,8 +26,8 @@ export default async function Footer({ locale }: { locale: string }) {
         <div className="flex items-center gap-4">
           <Link href={`/${locale}/categories`} className="hover:text-foreground transition-colors">{tNav('categories')}</Link>
           <Link href={`/${locale}/faq`} className="hover:text-foreground transition-colors">{tNav('faq')}</Link>
-          {user ? (
-            <Link href={`/${locale}/profile`} className="hover:text-foreground transition-colors">{tNav('profile')}</Link>
+          {user && username ? (
+            <Link href={`/${locale}/profile/${username}`} className="hover:text-foreground transition-colors">{tNav('profile')}</Link>
           ) : (
             <Link href={`/${locale}/auth/register`} className="hover:text-foreground transition-colors">{tNav('register')}</Link>
           )}
