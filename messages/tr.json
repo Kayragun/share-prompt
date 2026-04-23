@@ -22,6 +22,8 @@
     "allCategories": "Tüm Kategoriler",
     "searchPlaceholder": "Prompt ara...",
     "noPrompts": "Bu kategoride henüz prompt yok.",
+    "noPromptsTitle": "Prompt Bulunamadı",
+    "shareNewPrompt": "Yeni Prompt Paylaş",
     "latestPrompts": "Son Promptlar"
   },
   "prompt": {

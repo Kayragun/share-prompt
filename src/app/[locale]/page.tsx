@@ -120,11 +120,11 @@ export default async function HomePage({ params, searchParams }: Props) {
               <div className="h-20 w-20 bg-muted rounded-full flex items-center justify-center mb-6 shadow-inner">
                 <span className="text-4xl">🔍</span>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Prompt Bulunamadı</h3>
+              <h3 className="text-xl font-semibold mb-2">{t('noPromptsTitle')}</h3>
               <p className="text-muted-foreground max-w-sm mb-6">{t('noPrompts')}</p>
               {user && (
                 <Link href={`/${locale}/prompts/new`} className={cn(buttonVariants({ variant: 'default' }))}>
-                  Yeni Prompt Paylaş
+                  {t('shareNewPrompt')}
                 </Link>
               )}
             </div>

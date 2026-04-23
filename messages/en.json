@@ -22,6 +22,8 @@
     "allCategories": "All Categories",
     "searchPlaceholder": "Search prompts...",
     "noPrompts": "No prompts in this category yet.",
+    "noPromptsTitle": "Prompt Not Found",
+    "shareNewPrompt": "Share New Prompt",
     "latestPrompts": "Latest Prompts"
   },
   "prompt": {
