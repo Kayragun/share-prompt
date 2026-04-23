@@ -39,6 +39,8 @@
     "noForks": "No updated versions yet.",
     "exampleOutput": "Example Output",
     "noOutput": "No example output added.",
+    "copyPrompt": "Copy",
+    "copied": "Copied!",
     "back": "Back",
     "anonymous": "Anonymous",
     "forkedFrom": "Original Prompt",
