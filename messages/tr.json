@@ -24,6 +24,8 @@
     "noPrompts": "Bu kategoride henüz prompt yok.",
     "noPromptsTitle": "Prompt Bulunamadı",
     "shareNewPrompt": "Yeni Prompt Paylaş",
+    "loadMore": "Daha Fazla Yükle",
+    "prevPage": "Önceki",
     "latestPrompts": "Son Promptlar"
   },
   "prompt": {
@@ -37,6 +39,8 @@
     "noForks": "Henüz güncellenmiş versiyon yok.",
     "exampleOutput": "Örnek Çıktı",
     "noOutput": "Örnek çıktı eklenmemiş.",
+    "back": "Geri",
+    "anonymous": "Anonim",
     "copyPrompt": "Kopyala",
     "copied": "Kopyalandı!",
     "forkedFrom": "Orijinal Prompt",

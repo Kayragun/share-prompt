@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { createClient } from '@/lib/supabase/server';
@@ -17,6 +18,35 @@ import { GitFork, ArrowLeft } from 'lucide-react';
 type Props = {
   params: Promise<{ locale: string; id: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const { data: prompt } = await supabase
+    .from('prompts')
+    .select('title, description')
+    .eq('id', id)
+    .single();
+
+  const title = prompt?.title ?? 'SharePrompt';
+  const description = prompt?.description ?? 'Discover, share and improve AI prompts on SharePrompt.';
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: 'SharePrompt',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+  };
+}
 
 export default async function PromptDetailPage({ params }: Props) {
   const { locale, id } = await params;
@@ -73,7 +103,7 @@ export default async function PromptDetailPage({ params }: Props) {
         href={`/${locale}`}
         className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
       >
-        <ArrowLeft className="h-4 w-4" /> Geri
+        <ArrowLeft className="h-4 w-4" /> {t('back')}
       </Link>
 
       {parentPrompt && (
@@ -112,7 +142,7 @@ export default async function PromptDetailPage({ params }: Props) {
                 <span className="text-sm font-medium">{profile.username}</span>
               </Link>
             ) : (
-              <span className="text-sm text-muted-foreground">Anonim</span>
+              <span className="text-sm text-muted-foreground">{t('anonymous')}</span>
             )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span className="flex items-center gap-1">

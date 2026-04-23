@@ -10,12 +10,16 @@ import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/motion-wr
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string; q?: string }>;
+  searchParams: Promise<{ category?: string; q?: string; page?: string }>;
 };
 
 export default async function HomePage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { category, q } = await searchParams;
+  const { category, q, page: pageParam } = await searchParams;
+
+  const PAGE_SIZE = 12;
+  const page = Math.max(1, parseInt(pageParam ?? '1', 10));
+  const offset = (page - 1) * PAGE_SIZE;
 
   const t = await getTranslations('home');
   const supabase = await createClient();
@@ -30,7 +34,7 @@ export default async function HomePage({ params, searchParams }: Props) {
     .from('prompts')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(30);
+    .range(offset, offset + PAGE_SIZE); // PAGE_SIZE+1 fetch to detect next page
 
   if (category && categories) {
     const cat = categories.find((c) => c.slug === category);
@@ -39,7 +43,9 @@ export default async function HomePage({ params, searchParams }: Props) {
 
   if (q) promptQuery = promptQuery.ilike('title', `%${q}%`);
 
-  const { data: prompts } = await promptQuery;
+  const { data: rawPrompts } = await promptQuery;
+  const hasNextPage = (rawPrompts?.length ?? 0) > PAGE_SIZE;
+  const prompts = hasNextPage ? rawPrompts!.slice(0, PAGE_SIZE) : rawPrompts;
 
   const userIds = [...new Set(prompts?.map((p) => p.user_id) ?? [])];
   const categoryIds = [...new Set(prompts?.map((p) => p.category_id) ?? [])];
@@ -148,6 +154,26 @@ export default async function HomePage({ params, searchParams }: Props) {
                 </StaggerItem>
               ))}
             </StaggerContainer>
+
+            {/* Pagination */}
+            <div className="flex items-center justify-center gap-4 mt-10">
+              {page > 1 && (
+                <Link
+                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), page: String(page - 1) })}`}
+                  className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
+                >
+                  {t('prevPage')}
+                </Link>
+              )}
+              {hasNextPage && (
+                <Link
+                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), page: String(page + 1) })}`}
+                  className={cn(buttonVariants({ variant: 'default', size: 'sm' }))}
+                >
+                  {t('loadMore')}
+                </Link>
+              )}
+            </div>
           </FadeIn>
         )}
       </div>

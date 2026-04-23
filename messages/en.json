@@ -24,6 +24,8 @@
     "noPrompts": "No prompts in this category yet.",
     "noPromptsTitle": "Prompt Not Found",
     "shareNewPrompt": "Share New Prompt",
+    "loadMore": "Load More",
+    "prevPage": "Previous",
     "latestPrompts": "Latest Prompts"
   },
   "prompt": {
@@ -37,8 +39,8 @@
     "noForks": "No updated versions yet.",
     "exampleOutput": "Example Output",
     "noOutput": "No example output added.",
-    "copyPrompt": "Copy",
-    "copied": "Copied!",
+    "back": "Back",
+    "anonymous": "Anonymous",
     "forkedFrom": "Original Prompt",
     "category": "Category",
     "createdAt": "Created",
