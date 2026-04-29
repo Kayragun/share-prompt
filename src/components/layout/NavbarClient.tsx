@@ -46,9 +46,16 @@ export default function NavbarClient({ locale, user, profile, messages }: Props)
         <div className="flex items-center gap-6 shrink-0">
           <Link href={base} className="group flex items-center gap-2.5 font-bold text-xl tracking-tight">
             <div className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary/20">
-              <span className="text-[11px] font-black leading-none tracking-tighter">
-                <span className="text-foreground">S</span><span className="text-muted-foreground">P</span>
-              </span>
+              <svg viewBox="0 0 256 256" className="h-5 w-5" fill="none">
+                <path
+                  d="M128 28 C178 28,220 70,220 140 L220 212 Q193 236,166 212 Q139 236,112 212 Q85 236,58 212 L36 212 L36 140 C36 70,78 28,128 28Z"
+                  fill="var(--foreground)"
+                />
+                <circle cx="96"  cy="112" r="15" fill="var(--background)"/>
+                <circle cx="160" cy="112" r="15" fill="var(--background)"/>
+                <circle cx="101" cy="106" r="5"  fill="var(--muted-foreground)"/>
+                <circle cx="165" cy="106" r="5"  fill="var(--muted-foreground)"/>
+              </svg>
             </div>
             <span className="text-foreground">
               Share<span className="text-muted-foreground">Prompt</span>

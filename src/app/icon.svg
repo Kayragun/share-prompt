@@ -1,24 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <!-- Background: same slate as original -->
   <rect width="256" height="256" rx="60" fill="#475569" />
 
-  <!-- S — foreground white (Share color) -->
-  <text
-    x="22"
-    y="182"
-    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
-    font-weight="900"
-    font-size="158"
+  <!-- Ghost: rounded head + wavy scalloped bottom -->
+  <path
+    d="M 128 28
+       C 178 28, 220 70, 220 140
+       L 220 212
+       Q 193 236, 166 212
+       Q 139 236, 112 212
+       Q 85 236, 58 212
+       L 36 212
+       L 36 140
+       C 36 70, 78 28, 128 28 Z"
     fill="#f1f5f9"
-  >S</text>
+  />
 
-  <!-- P — muted-foreground slate (Prompt color) -->
-  <text
-    x="126"
-    y="182"
-    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
-    font-weight="900"
-    font-size="158"
-    fill="#94a3b8"
-  >P</text>
+  <!-- Eyes -->
+  <circle cx="96"  cy="112" r="15" fill="#475569"/>
+  <circle cx="160" cy="112" r="15" fill="#475569"/>
+  <circle cx="101" cy="106" r="5"  fill="#94a3b8"/>
+  <circle cx="165" cy="106" r="5"  fill="#94a3b8"/>
 </svg>
