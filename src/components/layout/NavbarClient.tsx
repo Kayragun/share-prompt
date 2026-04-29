@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import LocaleSwitcher from './LocaleSwitcher';
 import { ThemeToggle } from './ThemeToggle';
-import { Zap, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type Props = {
@@ -45,8 +45,10 @@ export default function NavbarClient({ locale, user, profile, messages }: Props)
         {/* Logo */}
         <div className="flex items-center gap-6 shrink-0">
           <Link href={base} className="group flex items-center gap-2.5 font-bold text-xl tracking-tight">
-            <div className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary/20">
-              <Zap className="h-4 w-4" />
+            <div className="relative flex items-center justify-center h-8 w-8 rounded-lg bg-primary/10 transition-colors duration-300 group-hover:bg-primary/20">
+              <span className="text-[11px] font-black leading-none tracking-tighter">
+                <span className="text-foreground">S</span><span className="text-muted-foreground">P</span>
+              </span>
             </div>
             <span className="text-foreground">
               Share<span className="text-muted-foreground">Prompt</span>
