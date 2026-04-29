@@ -1,4 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Background: same slate as original -->
   <rect width="256" height="256" rx="60" fill="#475569" />
-  <path d="M144 40 L64 152 H128 L112 216 L192 104 H128 Z" fill="#ffffff" />
+
+  <!-- S — foreground white (Share color) -->
+  <text
+    x="22"
+    y="182"
+    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="900"
+    font-size="158"
+    fill="#f1f5f9"
+  >S</text>
+
+  <!-- P — muted-foreground slate (Prompt color) -->
+  <text
+    x="126"
+    y="182"
+    font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+    font-weight="900"
+    font-size="158"
+    fill="#94a3b8"
+  >P</text>
 </svg>
