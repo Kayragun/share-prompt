@@ -51,7 +51,17 @@
     "forkedFrom": "Original Prompt",
     "category": "Category",
     "createdAt": "Created",
-    "tokens": "tokens"
+    "tokens": "tokens",
+    "report": "Report",
+    "reportTitle": "Report Prompt",
+    "reportDescription": "Briefly explain why you're reporting this prompt.",
+    "reportPlaceholder": "Describe the issue... (e.g. misleading content, spam)",
+    "reportSubmit": "Submit",
+    "reportCancel": "Cancel",
+    "reportSuccess": "Report submitted, thank you.",
+    "reportError": "Something went wrong, please try again.",
+    "reportAlreadyReported": "You've already reported this prompt.",
+    "reportSignIn": "Sign in to report prompts."
   },
   "newPrompt": {
     "title": "New Prompt",

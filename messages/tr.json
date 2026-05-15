@@ -51,7 +51,17 @@
     "forkedFrom": "Orijinal Prompt",
     "category": "Kategori",
     "createdAt": "Oluşturuldu",
-    "tokens": "token"
+    "tokens": "token",
+    "report": "Şikayet Et",
+    "reportTitle": "Prompt'u Şikayet Et",
+    "reportDescription": "Bu promptu neden şikayet ettiğinizi kısaca açıklayın.",
+    "reportPlaceholder": "Şikayet sebebinizi yazın... (örn. yanıltıcı içerik, spam)",
+    "reportSubmit": "Gönder",
+    "reportCancel": "İptal",
+    "reportSuccess": "Şikayetiniz alındı, teşekkürler.",
+    "reportError": "Bir hata oluştu, lütfen tekrar deneyin.",
+    "reportAlreadyReported": "Bu promptu zaten şikayet ettiniz.",
+    "reportSignIn": "Şikayet etmek için giriş yapın."
   },
   "newPrompt": {
     "title": "Yeni Prompt",

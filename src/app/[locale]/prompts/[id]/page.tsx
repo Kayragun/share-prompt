@@ -13,6 +13,7 @@ import DeletePromptButton from '@/components/prompts/DeletePromptButton';
 import ForkedVersions from '@/components/prompts/ForkedVersions';
 import OutputDisplay from '@/components/prompts/OutputDisplay';
 import StarButton from '@/components/prompts/StarButton';
+import ReportButton from '@/components/prompts/ReportButton';
 import { GitFork, ArrowLeft } from 'lucide-react';
 
 type Props = {
@@ -154,6 +155,9 @@ export default async function PromptDetailPage({ params }: Props) {
                 initialCount={prompt.star_count}
                 currentUserId={user?.id}
               />
+              {user?.id !== prompt.user_id && (
+                <ReportButton promptId={id} currentUserId={user?.id} showLabel />
+              )}
             </div>
           </div>
         </div>

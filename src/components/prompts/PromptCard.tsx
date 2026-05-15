@@ -12,6 +12,7 @@ import { Star, GitFork, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import type { PromptWithDetails } from '@/lib/supabase/types';
+import ReportButton from '@/components/prompts/ReportButton';
 
 type Props = {
   prompt: PromptWithDetails;
@@ -137,6 +138,9 @@ export default function PromptCard({ prompt, locale, currentUserId, initialStarr
                 <Star className={`h-3 w-3 ${starred ? 'fill-yellow-400' : ''}`} />
                 {starCount}
               </button>
+              {currentUserId !== prompt.user_id && (
+                <ReportButton promptId={prompt.id} currentUserId={currentUserId} />
+              )}
             </div>
           </div>
         </CardContent>

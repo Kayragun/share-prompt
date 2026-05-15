@@ -1,34 +1,39 @@
-# SharePrompt - Proje Özeti ve Mimari Yapı (AI Asistanlar İçin Rehber)
+# Session Summary — prompt-website
+**Tarih:** 2026-05-15
+**Oturum:** 3
 
-Bu dosya, projenin temel mimarisini, kullanılan teknolojileri ve geçmişte yapılan kritik güncellemeleri özetlemek amacıyla oluşturulmuştur. Yeni bir yapay zeka asistanı (Claude vb.) ile çalışmaya başlandığında, projenin bağlamını (context) hızlıca anlaması için bu dosyayı okuması yeterlidir.
+---
 
-## 1. Teknoloji Yığını (Tech Stack)
-- **Framework:** Next.js 14+ (App Router kullanılarak)
-- **Dil:** TypeScript
-- **Stil / Tasarım:** TailwindCSS, minimalist Slate/Dark konsept, Shadcn UI (Radix tabanlı) bileşenleri.
-- **Backend & Veritabanı:** Supabase (PostgreSQL veritabanı ve Supabase Auth)
-- **Çoklu Dil (i18n):** `next-intl` (Şu an aktif olarak İngilizce `en` ve Türkçe `tr` destekleniyor)
-- **İkonlar:** Lucide React
+## 🎯 Proje / Görev
+SharePrompt — Next.js + Supabase ile AI prompt paylaşım platformu. Bu oturumda prompt raporlama (report) özelliği eklendi.
 
-## 2. Veritabanı Mimarisi (Supabase)
-Tüm tablolar `public` şemasındadır ve Row Level Security (RLS) ile korunmaktadır.
-- **`profiles`:** Kullanıcı verileri. `auth.users` ile bağlantılı (`ON DELETE CASCADE`). Yeni kayıt olunduğunda `handle_new_user` trigger'ı ile otomatik oluşturulur. Yakın zamanda profile `description` (Hakkımda) sütunu eklenmiştir.
-- **`categories`:** Prompt kategorileri (Yazılım, Tasarım, Eğitim vs.).
-- **`prompts`:** Kullanıcıların paylaştığı komutlar. `user_id` ve `category_id` içerir. Bir prompt başka bir prompttan türetildiyse `parent_id` kullanılarak takip edilir (Fork mantığı). `star_count` ve `fork_count` sütunları triggerlar ile otomatik güncellenir.
-- **`stars`:** Kullanıcıların beğendiği promptların kaydı (Many-to-Many ilişkisi).
-- **`forks`:** Hangi promptun hangi kullanıcı tarafından kopyalandığının kaydı.
+## ✅ Tamamlananlar
+- `supabase/migrations/004_prompt_reports.sql` — `prompt_reports` tablosu (reporter_id, prompt_id, reason, status, UNIQUE kısıtı, RLS)
+- `src/components/prompts/ReportButton.tsx` — base-ui Dialog ile rapor formu (500 karakter sınırı, auth kontrolü, duplicate rapor koruması)
+- `messages/tr.json` + `messages/en.json` — report çeviri anahtarları eklendi
+- `src/components/prompts/PromptCard.tsx` — yıldız yanına bayrak ikonu eklendi (kendi promptunda görünmez)
+- `src/app/[locale]/prompts/[id]/page.tsx` — StarButton yanına "Report" butonu eklendi (showLabel=true)
+- Build temiz geçti, UI lokal test edildi
 
-## 3. Yakın Zamanda Çözülen Kritik Sorunlar ve Kararlar
-- **Trigger Güvenlik (RLS) Sorunu:** Kullanıcılar başkasının promptunu "Yıldızladığında" (Star) veya "Forkladığında" `prompts` tablosundaki sayaçlar artmıyordu. Bunun sebebi RLS kurallarının kullanıcının başkasının promptunu güncellemesini engellemesiydi. Çözüm olarak Supabase üzerindeki `handle_star_insert`, `handle_star_delete` ve `handle_fork_insert` fonksiyonlarına **`SECURITY DEFINER`** yetkisi verilerek RLS bypass edildi ve sayaçların sorunsuz çalışması sağlandı. (Bkz. `001_initial.sql` ve `003_fix_triggers_security_definer.sql`).
-- **Form Doğrulaması (Validation):** Kayıt ol (Register) ve Giriş yap (Login) formlarındaki tarayıcı kaynaklı standart HTML5 uyarıları (`required`, email type vb.) lokalizasyon (i18n) diline göre uyarlandı. Tarayıcının işletim sistemi diline bakmaksızın site dili (EN/TR) neyse hata mesajı o dilde veriliyor (`onInvalid` ile `setCustomValidity` kullanıldı). Zorunlu alanların yanına kırmızı yıldız (`*`) eklendi.
-- **Tasarım Kararları:** Arayüz tamamen "Minimalist Slate" karanlık temasında (Dark Mode) tutuldu. Sıkça Sorulan Sorular (FAQ) bölümü, aynı anda birden fazla sekmenin açık kalabileceği şekilde (`Set` mantığıyla) güncellendi. Orijinal mavi favicon yerine site konseptine uygun sarı-slate `icon.svg` şimşek logosu yapıldı.
+## 🔧 Alınan Kararlar
+- Raporlar Supabase tablosuna düşüyor, admin Supabase dashboard'dan takip ediyor
+- Kendi promptunu raporlayamazsın (user_id kontrolü hem PromptCard hem detail sayfasında var)
+- Admin yönetimi için `reported_prompts_view` SQL view'i önerildi (henüz çalıştırılmadı)
+- Migration (`004_prompt_reports.sql`) henüz Supabase'de çalıştırılmadı — production'a geçmeden önce yapılmalı
 
-## 4. Dizin Yapısı (Klasörler)
-- `src/app/[locale]/`: Tüm Next.js sayfaları burada yer alır (Çoklu dil destekli dinamik route).
-- `src/components/`: Tekrar kullanılabilir UI bileşenleri.
-- `src/lib/supabase/`: Supabase client ve server (SSR) bağlantı ayarları.
-- `messages/`: İngilizce (`en.json`) ve Türkçe (`tr.json`) çeviri dosyaları.
-- `supabase/migrations/`: Veritabanı tablolarını, RLS kurallarını ve trigger'ları kuran/güncelleyen SQL dosyaları.
+## 📁 Dosyalar
+- `supabase/migrations/004_prompt_reports.sql` — tablo + RLS migration
+- `src/components/prompts/ReportButton.tsx` — report dialog bileşeni
+- `messages/tr.json` / `messages/en.json` — çeviri anahtarları (prompt namespace)
 
-## 5. Yapay Zeka Asistanlarına Not
-Kodda herhangi bir `prompts` veya sayaç güncellemesi yapacaksanız, doğrudan tabloya `UPDATE` atmak yerine, sistemin halihazırda var olan trigger'lara (`SECURITY DEFINER` yetkili) güvendiğini unutmayın. Yeni bir alan (sütun) eklenecekse, migration dosyası oluşturduğunuzdan ve UI'daki `types.ts` ile eşleştiğinden emin olun. Her zaman minimalist Slate tasarım diline sadık kalın.
+## ⏭️ Sonraki Adım
+Supabase SQL Editor'de iki şeyi çalıştır:
+1. `004_prompt_reports.sql` — tabloyu oluştur
+2. `reported_prompts_view` SQL'ini çalıştır (admin görünümü için)
+Ardından production'a push edilebilir.
+
+## 🧠 Kritik Bağlam
+- shadcn/ui'de `asChild` yok, `render={<element/>}` veya `buttonVariants()` kullan
+- base-ui Dialog import: `import { Dialog } from '@base-ui/react/dialog'`
+- `prompt_reports` tablosu `on delete cascade` ile bağlı — prompt silinince raporlar da otomatik silinir
+- i18n mesaj dosyaları: `messages/en.json` ve `messages/tr.json` (proje kökünde)
