@@ -1,23 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="60" fill="#475569" />
+  <rect width="256" height="256" rx="56" fill="#1F2125" />
 
-  <!-- Ghost: rounded head + wavy scalloped bottom -->
+  <!-- Speech bubble with terminal prompt -->
   <path
-    d="M 128 28
-       C 178 28, 220 70, 220 140
-       L 220 212
-       Q 193 236, 166 212
-       Q 139 236, 112 212
-       Q 85 236, 58 212
-       L 36 212
-       L 36 140
-       C 36 70, 78 28, 128 28 Z"
-    fill="#f1f5f9"
+    d="M 74 44
+       L 182 44
+       Q 216 44, 216 78
+       L 216 138
+       Q 216 172, 182 172
+       L 118 172
+       L 72 208
+       L 72 170
+       Q 40 165, 40 132
+       L 40 78
+       Q 40 44, 74 44 Z"
+    fill="#F2F3F5"
   />
-
-  <!-- Eyes -->
-  <circle cx="96"  cy="112" r="15" fill="#475569"/>
-  <circle cx="160" cy="112" r="15" fill="#475569"/>
-  <circle cx="101" cy="106" r="5"  fill="#94a3b8"/>
-  <circle cx="165" cy="106" r="5"  fill="#94a3b8"/>
+  <path d="M 82 82 L 114 108 L 82 134" fill="none" stroke="#1F2125" stroke-width="17" stroke-linecap="round" stroke-linejoin="round" />
+  <rect x="130" y="123" width="42" height="15" rx="7" fill="#1F2125" />
 </svg>

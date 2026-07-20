@@ -1,39 +1,37 @@
 # Session Summary — prompt-website
-**Tarih:** 2026-05-15
-**Oturum:** 3
+**Tarih:** 2026-07-20
+**Oturum:** 4
 
 ---
 
 ## 🎯 Proje / Görev
-SharePrompt — Next.js + Supabase ile AI prompt paylaşım platformu. Bu oturumda prompt raporlama (report) özelliği eklendi.
+SharePrompt — Next.js + Supabase ile AI prompt paylaşım platformu (portfolyo projesi, aktif kullanıcı hedefi yok). Bu oturumda logo yenilendi: hayalet ikonu yerine konuşma balonu + terminal prompt (`>_`) işareti.
 
 ## ✅ Tamamlananlar
-- `supabase/migrations/004_prompt_reports.sql` — `prompt_reports` tablosu (reporter_id, prompt_id, reason, status, UNIQUE kısıtı, RLS)
-- `src/components/prompts/ReportButton.tsx` — base-ui Dialog ile rapor formu (500 karakter sınırı, auth kontrolü, duplicate rapor koruması)
-- `messages/tr.json` + `messages/en.json` — report çeviri anahtarları eklendi
-- `src/components/prompts/PromptCard.tsx` — yıldız yanına bayrak ikonu eklendi (kendi promptunda görünmez)
-- `src/app/[locale]/prompts/[id]/page.tsx` — StarButton yanına "Report" butonu eklendi (showLabel=true)
-- Build temiz geçti, UI lokal test edildi
+- `src/components/layout/Logo.tsx` — yeni `LogoMark` bileşeni (balon + prompt SVG, tema tokenlarından renk alıyor)
+- Navbar (hayalet SVG), Footer + login + register (Zap ikonu) → hepsi `LogoMark` ile değiştirildi
+- `src/app/icon.svg` — favicon aynı tasarıma geçti (sabit hex: #1F2125 zemin, #F2F3F5 balon)
+- Logo dikey hizalama düzeltildi (SVG içeriği `translate(0 14)` ile aşağı kaydırıldı)
+- `.claude/launch.json` eklendi (dev server preview için)
+- Build temiz, localhost'ta görsel olarak doğrulandı; kullanıcı commit atacak
 
 ## 🔧 Alınan Kararlar
-- Raporlar Supabase tablosuna düşüyor, admin Supabase dashboard'dan takip ediyor
-- Kendi promptunu raporlayamazsın (user_id kontrolü hem PromptCard hem detail sayfasında var)
-- Admin yönetimi için `reported_prompts_view` SQL view'i önerildi (henüz çalıştırılmadı)
-- Migration (`004_prompt_reports.sql`) henüz Supabase'de çalıştırılmadı — production'a geçmeden önce yapılmalı
+- Site paleti aslında monokrom slate (hue 250) — CLAUDE.md'deki "amber vurgu" notu güncel değil, amber logo bu yüzden reddedildi
+- Logo tek bileşende toplandı; renkler `--primary`/`--primary-foreground` üzerinden temaya otomatik uyuyor
+- `ContributionScore` içindeki `Zap` bilerek bırakıldı — logo değil, katkı puanı ikonu
+- Proje portfolyo amaçlı: öncelik sırası seed data + demo login → README vitrini → mini test/CI olarak önerildi (henüz yapılmadı)
 
 ## 📁 Dosyalar
-- `supabase/migrations/004_prompt_reports.sql` — tablo + RLS migration
-- `src/components/prompts/ReportButton.tsx` — report dialog bileşeni
-- `messages/tr.json` / `messages/en.json` — çeviri anahtarları (prompt namespace)
+- `src/components/layout/Logo.tsx` — LogoMark bileşeni (tek logo kaynağı)
+- `src/app/icon.svg` — favicon
+- `src/components/layout/NavbarClient.tsx`, `Footer.tsx`, `auth/login/page.tsx`, `auth/register/page.tsx` — LogoMark kullanımları
 
 ## ⏭️ Sonraki Adım
-Supabase SQL Editor'de iki şeyi çalıştır:
-1. `004_prompt_reports.sql` — tabloyu oluştur
-2. `reported_prompts_view` SQL'ini çalıştır (admin görünümü için)
-Ardından production'a push edilebilir.
+Önceki oturumdan bekleyen iş duruyor: Supabase SQL Editor'de `004_prompt_reports.sql` migration'ını ve `reported_prompts_view` SQL'ini çalıştır. Sonrasında portfolyo iyileştirmeleri: seed data + demo hesabı → README (ekran görüntüleri, mimari) → birkaç test + CI.
 
 ## 🧠 Kritik Bağlam
 - shadcn/ui'de `asChild` yok, `render={<element/>}` veya `buttonVariants()` kullan
-- base-ui Dialog import: `import { Dialog } from '@base-ui/react/dialog'`
-- `prompt_reports` tablosu `on delete cascade` ile bağlı — prompt silinince raporlar da otomatik silinir
+- CLAUDE.md "amber" diyor ama globals.css monokrom — güvenilir kaynak globals.css
+- Favicon (`icon.svg`) CSS değişkeni okuyamaz, renkleri sabit hex olmalı
+- Next.js 16: "middleware" convention deprecated, "proxy" öneriliyor (dev'de uyarı basıyor, kırıcı değil)
 - i18n mesaj dosyaları: `messages/en.json` ve `messages/tr.json` (proje kökünde)

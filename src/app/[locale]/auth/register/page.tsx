@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Zap } from 'lucide-react';
+import { LogoMark } from '@/components/layout/Logo';
 
 export default function RegisterPage() {
   const t = useTranslations('auth');
@@ -67,9 +67,7 @@ export default function RegisterPage() {
     <div className="flex justify-center items-center min-h-[70vh] py-8">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary mb-4">
-            <Zap className="h-6 w-6 text-primary-foreground" />
-          </div>
+          <LogoMark className="inline-block h-12 w-12 mb-4" />
           <h1 className="text-2xl font-bold">{t('registerTitle')}</h1>
           <p className="text-muted-foreground text-sm mt-1">{t('registerSubtitle')}</p>
         </div>

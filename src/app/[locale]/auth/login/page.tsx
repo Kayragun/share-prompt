@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
-import { Zap } from 'lucide-react';
+import { LogoMark } from '@/components/layout/Logo';
 
 export default function LoginPage() {
   const t = useTranslations('auth');
@@ -45,9 +45,7 @@ export default function LoginPage() {
     <div className="flex justify-center items-center min-h-[70vh]">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary mb-4">
-            <Zap className="h-6 w-6 text-primary-foreground" />
-          </div>
+          <LogoMark className="inline-block h-12 w-12 mb-4" />
           <h1 className="text-2xl font-bold">{t('loginTitle')}</h1>
           <p className="text-muted-foreground text-sm mt-1">{t('loginSubtitle')}</p>
         </div>
