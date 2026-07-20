@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SharePrompt
 
-## Getting Started
+A place to share AI prompts and see the ones other people actually use.
 
-First, run the development server:
+Good prompts are hard to write and easy to lose. You spend time getting one to behave, paste it into a chat window, and a week later it's buried in your history somewhere. Meanwhile everyone else is rewriting the same prompt from scratch. SharePrompt is a small web app that fixes that: you post a prompt, show what it produced, and other people can star it, fork it, and build on it. Think of it like GitHub, but for prompts instead of code.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Live: https://prompt-website-flame.vercel.app
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## What you can do
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Post a prompt** with a title, the prompt text, and an example of what it returns (text or an image).
+- **Star** the ones you want to find again. The star count is how good prompts rise to the top.
+- **Fork** a prompt to make your own version. The fork remembers where it came from, so you can trace a prompt back to the original.
+- **Browse by category** or search by title.
+- **Report** a prompt if something's off with it.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Each profile has a contribution score, so people who post useful prompts that others star get credit for it.
 
-## Learn More
+## Categories
 
-To learn more about Next.js, take a look at the following resources:
+Prompts are filed under one of ten categories:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+💻 Software · 🎮 Game Development · 🎬 Animation · ✍️ Content Creation · 📊 Data Analysis · 📚 Education · 📣 Marketing · 🎨 Design · 🚗 Cars · 🔧 Other
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The whole site works in both Turkish and English.
 
-## Deploy on Vercel
+## Built with
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js 16 (App Router) and React 19
+- Supabase for auth, Postgres, and image storage
+- next-intl for Turkish/English
+- Tailwind CSS v4 with shadcn/ui (on Base UI)
+- Framer Motion for the animations
+- Deployed on Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT — see [LICENSE](LICENSE).
