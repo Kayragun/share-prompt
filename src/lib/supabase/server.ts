@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { cache } from 'react';
 
 export async function createClient() {
   const cookieStore = await cookies();
@@ -22,3 +23,22 @@ export async function createClient() {
     }
   );
 }
+
+// Request başına tek auth çağrısı: Navbar, Footer ve sayfa aynı sonucu paylaşır.
+export const getUser = cache(async () => {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user;
+});
+
+export const getProfile = cache(async () => {
+  const user = await getUser();
+  if (!user) return null;
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('profiles')
+    .select('id, username, full_name, avatar_url')
+    .eq('id', user.id)
+    .single();
+  return data;
+});

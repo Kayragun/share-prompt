@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, getUser } from '@/lib/supabase/server';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import PromptCard from '@/components/prompts/PromptCard';
@@ -25,7 +25,7 @@ export default async function ProfilePage({ params }: Props) {
 
   if (!profile) notFound();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getUser();
 
   // Promptları JOIN olmadan çek
   const { data: prompts } = await supabase

@@ -1,22 +1,9 @@
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { getUser, getProfile } from '@/lib/supabase/server';
 import NavbarClient from './NavbarClient';
 
 export default async function Navbar({ locale }: { locale: string }) {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  let profile = null;
-  if (user) {
-    const { data } = await supabase
-      .from('profiles')
-      .select('username, avatar_url')
-      .eq('id', user.id)
-      .single();
-    profile = data;
-  }
-
-  const t = await getTranslations('nav');
+  const [user, profile, t] = await Promise.all([getUser(), getProfile(), getTranslations('nav')]);
 
   return (
     <NavbarClient

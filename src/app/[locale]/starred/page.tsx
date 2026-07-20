@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, getUser } from '@/lib/supabase/server';
 import PromptCard from '@/components/prompts/PromptCard';
 
 type Props = {
@@ -12,7 +12,7 @@ export default async function StarredPage({ params }: Props) {
   const supabase = await createClient();
   const t = await getTranslations('profile');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getUser();
   if (!user) redirect(`/${locale}/auth/login`);
 
   // Yıldızlanan prompt ID'lerini çek

@@ -1,18 +1,11 @@
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { LogoMark } from './Logo';
-import { createClient } from '@/lib/supabase/server';
+import { getUser, getProfile } from '@/lib/supabase/server';
 
 export default async function Footer({ locale }: { locale: string }) {
-  const tNav = await getTranslations('nav');
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
-  let username = null;
-  if (user) {
-    const { data } = await supabase.from('profiles').select('username').eq('id', user.id).single();
-    username = data?.username;
-  }
+  const [tNav, user, profile] = await Promise.all([getTranslations('nav'), getUser(), getProfile()]);
+  const username = profile?.username ?? null;
 
   return (
     <footer className="border-t mt-16 bg-muted/30">

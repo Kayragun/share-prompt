@@ -22,22 +22,19 @@ export default async function CategoriesPage({ params }: Props) {
   const t = await getTranslations('categories');
   const supabase = await createClient();
 
-  const { data: rawCategories } = await supabase.from('categories').select('*').order('id');
+  // Kategoriler ve prompt kategori ID'leri paralel çekilir; sayım JS'te yapılır (kategori başına ayrı sorgu yerine).
+  const [{ data: rawCategories }, { data: promptCategoryIds }] = await Promise.all([
+    supabase.from('categories').select('*').order('id'),
+    supabase.from('prompts').select('category_id'),
+  ]);
+
   const categories = rawCategories
     ? [...rawCategories].sort((a, b) => (a.slug === 'diger' ? 1 : b.slug === 'diger' ? -1 : 0))
     : rawCategories;
 
   const counts: Record<number, number> = {};
-  if (categories) {
-    await Promise.all(
-      categories.map(async (cat) => {
-        const { count } = await supabase
-          .from('prompts')
-          .select('id', { count: 'exact', head: true })
-          .eq('category_id', cat.id);
-        counts[cat.id] = count ?? 0;
-      })
-    );
+  for (const row of promptCategoryIds ?? []) {
+    if (row.category_id != null) counts[row.category_id] = (counts[row.category_id] ?? 0) + 1;
   }
 
   return (

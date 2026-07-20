@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, getUser } from '@/lib/supabase/server';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { buttonVariants } from '@/components/ui/button';
@@ -73,7 +73,7 @@ export default async function PromptDetailPage({ params }: Props) {
     supabase.from('prompt_outputs').select('*').eq('prompt_id', id),
   ]);
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getUser();
 
   let isStarred = false;
   if (user) {

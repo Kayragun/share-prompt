@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, getUser } from '@/lib/supabase/server';
 import PromptCard from '@/components/prompts/PromptCard';
 import CategoryFilterClient from '@/components/layout/CategoryFilterClient';
 import { Sparkles } from 'lucide-react';
@@ -24,54 +24,43 @@ export default async function HomePage({ params, searchParams }: Props) {
   const t = await getTranslations('home');
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
-  const { data: rawCategories } = await supabase.from('categories').select('*').order('id');
+  // Profil ve kategori bilgisi tek sorguda embed edilir; auth ve kategori listesi paralel koşar.
+  let promptQuery = supabase
+    .from('prompts')
+    .select('*, profiles(username, full_name, avatar_url), categories!inner(id, slug, name_tr, name_en, icon)')
+    .order('created_at', { ascending: false })
+    .range(offset, offset + PAGE_SIZE); // PAGE_SIZE+1 fetch to detect next page
+
+  if (category) promptQuery = promptQuery.eq('categories.slug', category);
+  if (q) promptQuery = promptQuery.ilike('title', `%${q}%`);
+
+  const [user, { data: rawCategories }, { data: rawPrompts }] = await Promise.all([
+    getUser(),
+    supabase.from('categories').select('*').order('id'),
+    promptQuery,
+  ]);
+
   const categories = rawCategories
     ? [...rawCategories].sort((a, b) => (a.slug === 'diger' ? 1 : b.slug === 'diger' ? -1 : 0))
     : rawCategories;
 
-  let promptQuery = supabase
-    .from('prompts')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .range(offset, offset + PAGE_SIZE); // PAGE_SIZE+1 fetch to detect next page
-
-  if (category && categories) {
-    const cat = categories.find((c) => c.slug === category);
-    if (cat) promptQuery = promptQuery.eq('category_id', cat.id);
-  }
-
-  if (q) promptQuery = promptQuery.ilike('title', `%${q}%`);
-
-  const { data: rawPrompts } = await promptQuery;
   const hasNextPage = (rawPrompts?.length ?? 0) > PAGE_SIZE;
   const prompts = hasNextPage ? rawPrompts!.slice(0, PAGE_SIZE) : rawPrompts;
 
-  const userIds = [...new Set(prompts?.map((p) => p.user_id) ?? [])];
-  const categoryIds = [...new Set(prompts?.map((p) => p.category_id) ?? [])];
-
-  const [{ data: profiles }, { data: cats }] = await Promise.all([
-    userIds.length > 0
-      ? supabase.from('profiles').select('id, username, full_name, avatar_url').in('id', userIds)
-      : Promise.resolve({ data: [] }),
-    categoryIds.length > 0
-      ? supabase.from('categories').select('id, slug, name_tr, name_en, icon').in('id', categoryIds)
-      : Promise.resolve({ data: [] }),
-  ]);
-
-  const profileMap = Object.fromEntries((profiles ?? []).map((p) => [p.id, p]));
-  const categoryMap = Object.fromEntries((cats ?? []).map((c) => [c.id, c]));
-
   let starredIds: Set<string> = new Set();
-  if (user) {
-    const { data: stars } = await supabase.from('prompt_stars').select('prompt_id').eq('user_id', user.id);
+  if (user && prompts && prompts.length > 0) {
+    const { data: stars } = await supabase
+      .from('prompt_stars')
+      .select('prompt_id')
+      .eq('user_id', user.id)
+      .in('prompt_id', prompts.map((p) => p.id));
     starredIds = new Set(stars?.map((s) => s.prompt_id) ?? []);
   }
 
   const enrichedPrompts = (prompts ?? []).map((p) => ({
     ...p,
-    profiles: profileMap[p.user_id] ?? { username: 'anonymous', full_name: null, avatar_url: null },
-    categories: categoryMap[p.category_id] ?? { slug: '', name_tr: '', name_en: '', icon: '' },
+    profiles: p.profiles ?? { username: 'anonymous', full_name: null, avatar_url: null },
+    categories: p.categories ?? { slug: '', name_tr: '', name_en: '', icon: '' },
   }));
 
   const isFiltered = !!category || !!q;
