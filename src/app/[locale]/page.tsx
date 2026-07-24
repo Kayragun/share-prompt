@@ -27,7 +27,7 @@ export default async function HomePage({ params, searchParams }: Props) {
   // Profil ve kategori bilgisi tek sorguda embed edilir; auth ve kategori listesi paralel koşar.
   let promptQuery = supabase
     .from('prompts')
-    .select('*, profiles(username, full_name, avatar_url), categories!inner(id, slug, name_tr, name_en, icon)')
+    .select('*, profiles!prompts_user_id_fkey(username, full_name, avatar_url), categories!inner(id, slug, name_tr, name_en, icon)')
     .order('created_at', { ascending: false })
     .range(offset, offset + PAGE_SIZE); // PAGE_SIZE+1 fetch to detect next page
 
