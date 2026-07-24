@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# supabase seed data (local-only, not part of the app)
+supabase/seed*.sql
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
