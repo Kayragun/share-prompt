@@ -10,16 +10,19 @@ import { FadeIn, StaggerContainer, StaggerItem } from '@/components/ui/motion-wr
 
 type Props = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ category?: string; q?: string; page?: string }>;
+  searchParams: Promise<{ category?: string; q?: string; page?: string; sort?: string }>;
 };
 
 export default async function HomePage({ params, searchParams }: Props) {
   const { locale } = await params;
-  const { category, q, page: pageParam } = await searchParams;
+  const { category, q, page: pageParam, sort: sortParam } = await searchParams;
 
   const PAGE_SIZE = 12;
   const page = Math.max(1, parseInt(pageParam ?? '1', 10));
   const offset = (page - 1) * PAGE_SIZE;
+
+  // Geçerli sıralama: newest (varsayılan) | stars | forks
+  const sort = sortParam === 'stars' || sortParam === 'forks' ? sortParam : 'newest';
 
   const t = await getTranslations('home');
   const supabase = await createClient();
@@ -28,8 +31,16 @@ export default async function HomePage({ params, searchParams }: Props) {
   let promptQuery = supabase
     .from('prompts')
     .select('*, profiles!prompts_user_id_fkey(username, full_name, avatar_url), categories!inner(id, slug, name_tr, name_en, icon)')
-    .order('created_at', { ascending: false })
     .range(offset, offset + PAGE_SIZE); // PAGE_SIZE+1 fetch to detect next page
+
+  // Sıralama: yıldız/fork için ikincil kriter created_at (eşitlikte kararlı sıra)
+  if (sort === 'stars') {
+    promptQuery = promptQuery.order('star_count', { ascending: false }).order('created_at', { ascending: false });
+  } else if (sort === 'forks') {
+    promptQuery = promptQuery.order('fork_count', { ascending: false }).order('created_at', { ascending: false });
+  } else {
+    promptQuery = promptQuery.order('created_at', { ascending: false });
+  }
 
   if (category) promptQuery = promptQuery.eq('categories.slug', category);
   if (q) promptQuery = promptQuery.ilike('title', `%${q}%`);
@@ -104,8 +115,10 @@ export default async function HomePage({ params, searchParams }: Props) {
         locale={locale}
         activeSlug={category}
         searchQuery={q}
+        activeSort={sort}
         allLabel={t('allCategories')}
         searchPlaceholder={t('searchPlaceholder')}
+        sortLabels={{ newest: t('sortNewest'), stars: t('sortStars'), forks: t('sortForks') }}
       />
 
       <div className="mt-8">
@@ -148,7 +161,7 @@ export default async function HomePage({ params, searchParams }: Props) {
             <div className="flex items-center justify-center gap-4 mt-10">
               {page > 1 && (
                 <Link
-                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), page: String(page - 1) })}`}
+                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), ...(sort !== 'newest' ? { sort } : {}), page: String(page - 1) })}`}
                   className={cn(buttonVariants({ variant: 'outline', size: 'sm' }))}
                 >
                   {t('prevPage')}
@@ -156,7 +169,7 @@ export default async function HomePage({ params, searchParams }: Props) {
               )}
               {hasNextPage && (
                 <Link
-                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), page: String(page + 1) })}`}
+                  href={`/${locale}?${new URLSearchParams({ ...(category ? { category } : {}), ...(q ? { q } : {}), ...(sort !== 'newest' ? { sort } : {}), page: String(page + 1) })}`}
                   className={cn(buttonVariants({ variant: 'default', size: 'sm' }))}
                 >
                   {t('loadMore')}
