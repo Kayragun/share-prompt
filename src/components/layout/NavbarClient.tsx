@@ -24,7 +24,7 @@ type Props = {
   profile: { username: string; avatar_url: string | null } | null;
   messages: {
     home: string; categories: string; newPrompt: string; starred: string;
-    login: string; register: string; logout: string; profile: string; faq: string;
+    login: string; register: string; logout: string; profile: string; faq: string; settings: string;
   };
 };
 
@@ -102,6 +102,9 @@ export default function NavbarClient({ locale, user, profile, messages }: Props)
                   </DropdownMenuItem>
                   <DropdownMenuItem render={<Link href={`${base}/starred`} />}>
                     {messages.starred}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href={`${base}/profile/settings`} />}>
+                    {messages.settings}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem variant="destructive" onClick={handleLogout}>

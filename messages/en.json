@@ -8,7 +8,8 @@
     "register": "Sign Up",
     "logout": "Log Out",
     "profile": "My Profile",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "settings": "Settings"
   },
   "home": {
     "title": "Prompt Repository",
@@ -131,6 +132,30 @@
     "editProfile": "Edit Profile",
     "showProfession": "Show profession",
     "showEducation": "Show education"
+  },
+  "settings": {
+    "title": "Profile settings",
+    "subtitle": "Update how your profile looks to others.",
+    "changeAvatar": "Change photo",
+    "avatarHint": "JPG, PNG or WEBP. Max 5MB.",
+    "avatarImageOnly": "Please choose an image file.",
+    "avatarTooLarge": "Image must be under 5MB.",
+    "avatarFailed": "Couldn't upload the photo. Saving your other changes.",
+    "username": "Username",
+    "usernameNote": "Your username can't be changed.",
+    "fullName": "Full name",
+    "fullNamePlaceholder": "Your name",
+    "profession": "Profession",
+    "professionPlaceholder": "e.g. Full-stack developer",
+    "education": "Education",
+    "educationPlaceholder": "e.g. Computer Science",
+    "description": "About",
+    "descriptionPlaceholder": "A short bio others will see on your profile.",
+    "visible": "Visible",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "saved": "Profile updated",
+    "cancel": "Cancel"
   },
   "categories": {
     "title": "Categories",

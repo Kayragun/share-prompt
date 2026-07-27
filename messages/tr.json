@@ -8,7 +8,8 @@
     "register": "Kayıt Ol",
     "logout": "Çıkış Yap",
     "profile": "Profilim",
-    "faq": "SSS"
+    "faq": "SSS",
+    "settings": "Ayarlar"
   },
   "home": {
     "title": "Prompt Deposu",
@@ -131,6 +132,30 @@
     "editProfile": "Profili Düzenle",
     "showProfession": "Mesleği göster",
     "showEducation": "Eğitimi göster"
+  },
+  "settings": {
+    "title": "Profil ayarları",
+    "subtitle": "Profilinin başkalarına nasıl göründüğünü güncelle.",
+    "changeAvatar": "Fotoğrafı değiştir",
+    "avatarHint": "JPG, PNG veya WEBP. En fazla 5MB.",
+    "avatarImageOnly": "Lütfen bir görsel dosyası seç.",
+    "avatarTooLarge": "Görsel 5MB'dan küçük olmalı.",
+    "avatarFailed": "Fotoğraf yüklenemedi. Diğer değişikliklerin kaydediliyor.",
+    "username": "Kullanıcı adı",
+    "usernameNote": "Kullanıcı adın değiştirilemez.",
+    "fullName": "Ad soyad",
+    "fullNamePlaceholder": "Adın",
+    "profession": "Meslek",
+    "professionPlaceholder": "örn. Full-stack geliştirici",
+    "education": "Eğitim",
+    "educationPlaceholder": "örn. Bilgisayar Mühendisliği",
+    "description": "Hakkında",
+    "descriptionPlaceholder": "Profilinde görünecek kısa bir bio.",
+    "visible": "Görünür",
+    "save": "Değişiklikleri kaydet",
+    "saving": "Kaydediliyor...",
+    "saved": "Profil güncellendi",
+    "cancel": "İptal"
   },
   "categories": {
     "title": "Kategoriler",

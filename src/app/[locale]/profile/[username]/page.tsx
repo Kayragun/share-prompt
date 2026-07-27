@@ -1,12 +1,15 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { createClient, getUser } from '@/lib/supabase/server';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import PromptCard from '@/components/prompts/PromptCard';
 import ContributionScore from '@/components/profile/ContributionScore';
 import ContributionHeatmap from '@/components/profile/ContributionHeatmap';
-import { Briefcase, GraduationCap, Calendar } from 'lucide-react';
+import { Briefcase, GraduationCap, Calendar, Settings } from 'lucide-react';
 
 type Props = {
   params: Promise<{ locale: string; username: string }>;
@@ -113,8 +116,16 @@ export default async function ProfilePage({ params }: Props) {
             </span>
           </div>
 
-          <div className="mt-3">
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             <ContributionScore promptCount={promptCount} totalStars={totalStars} />
+            {user?.id === profile.id && (
+              <Link
+                href={`/${locale}/profile/settings`}
+                className={cn(buttonVariants({ variant: 'outline', size: 'sm' }), 'gap-2')}
+              >
+                <Settings className="h-4 w-4" /> {t('editProfile')}
+              </Link>
+            )}
           </div>
         </div>
       </div>

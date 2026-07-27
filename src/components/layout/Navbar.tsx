@@ -20,6 +20,7 @@ export default async function Navbar({ locale }: { locale: string }) {
         logout: t('logout'),
         profile: t('profile'),
         faq: t('faq'),
+        settings: t('settings'),
       }}
     />
   );
