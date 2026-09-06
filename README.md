@@ -4,7 +4,7 @@ A place to share AI prompts and see the ones other people actually use.
 
 Good prompts are hard to write and easy to lose. You spend time getting one to behave, paste it into a chat window, and a week later it's buried in your history somewhere. Meanwhile everyone else is rewriting the same prompt from scratch. SharePrompt is a small web app that fixes that: you post a prompt, show what it produced, and other people can star it, fork it, and build on it. Think of it like GitHub, but for prompts instead of code.
 
-Live: https://prompt-website-flame.vercel.app
+Live: https://shareprompt-prompt.vercel.app
 
 ## What you can do
 
