@@ -42,3 +42,9 @@ supabase/seed*.sql
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+CLAUDE.md
+summary.md
+AGENTS.md
+.claude
